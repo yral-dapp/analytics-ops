@@ -1,7 +1,7 @@
 apiVersion: grizzly.grafana.com/v1alpha1
 kind: Datasource
 metadata:
-  name: datasource-dashboard-testing
+  name: datasource-bigquery-testing
 spec:
   access: proxy
   jsonData:
@@ -9,10 +9,10 @@ spec:
     clientEmail: workplz@green-analog-447907-h0.iam.gserviceaccount.com
     defaultProject: green-analog-447907-h0
     tokenUri: https://oauth2.googleapis.com/token
-  name: bigquery
+  name: datasource-bigquery-testing
   orgId: 1
   secureJsonFields:
     privateKey: true
   type: grafana-bigquery-datasource
   typeLogoUrl: public/plugins/grafana-bigquery-datasource/img/logo.png
-  uid: datasource-dashboard-testing
+  uid: datasource-bigquery-testing

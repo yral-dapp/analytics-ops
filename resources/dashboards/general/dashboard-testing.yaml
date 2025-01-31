@@ -22,7 +22,7 @@ spec:
   panels:
     - datasource:
         type: grafana-bigquery-datasource
-        uid: datasource-dashboard-testing
+        uid: datasource-bigquery-testing
       fieldConfig:
         defaults:
           color:
@@ -60,7 +60,7 @@ spec:
       targets:
         - datasource:
             type: grafana-bigquery-datasource
-            uid: datasource-dashboard-testing
+            uid: datasource-bigquery-testing
           editorMode: code
           format: 1
           location: ""
