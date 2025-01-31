@@ -5,7 +5,7 @@ primary_region = 'ams'
 image = 'grafana/grafana-oss'
 
 [[mounts]]
-source = 'grafana-yral'
+source = 'grafana_yral'
 destination = '/var/lib/grafana'
 
 [http_service]
@@ -24,3 +24,14 @@ cpus = 1
 [env]
 GF_INSTALL_PLUGINS = "grafana-bigquery-datasource,quickwit-quickwit-datasource"
 GF_SERVER_ROOT_URL = "https://grafana-yral.fly.dev/"
+GF_AUTH_GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+GF_AUTH_GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
+GF_AUTH_GOOGLE_API_URL = "https://openidconnect.googleapis.com/v1/userinfo"
+GF_AUTH_GOOGLE_ENABLED = "true"
+GF_AUTH_GOOGLE_ALLOW_SIGN_UP = "true"
+GF_AUTH_GOOGLE_AUTO_LOGIN = "false"
+GF_AUTH_GOOGLE_SCOPES = "openid email profile"
+GF_AUTH_GOOGLE_ALLOWED_DOMAINS = "gobazzinga.io"
+GF_AUTH_GOOGLE_HOSTED_DOMAIN = "gobazzinga.io"
+GF_AUTH_GOOGLE_USE_PKCE = "true"
+

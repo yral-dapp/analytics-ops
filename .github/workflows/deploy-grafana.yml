@@ -1,0 +1,25 @@
+name: Deploy grafana
+
+on: [workflow_dispatch]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Set secret tokens
+        run: |
+          flyctl secrets set GF_AUTH_GOOGLE_CLIENT_ID="$GOOGLE_CLIENT_ID" --app "grafana-yral" --stage
+          flyctl secrets set GF_AUTH_GOOGLE_CLIENT_SECRET="$GOOGLE_CLIENT_SECRET" --app "grafana-yral" --stage
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      - name: Deploy grafana
+        run: flyctl deploy -c fly.toml
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
