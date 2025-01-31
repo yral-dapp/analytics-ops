@@ -12,7 +12,6 @@ IaC ops repo for Grafana
     grr config create-context yral
     grr config set grafana.url https://grafana-yral.fly.dev
     grr config set grafana.token <token>
-    grr serve
     ```
 
 -   Start preview server
@@ -23,7 +22,7 @@ IaC ops repo for Grafana
 
 -   Edit in preview will also make changes to YAML file, make a commit
 
--   Run "Deploy dashboards" workflow on github
+-   "Deploy dashboards" workflow will automatically run on github
 
 ## Workflow for creating new dashboard
 
