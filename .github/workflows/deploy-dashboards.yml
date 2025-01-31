@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Setup config folder
+        run: |
+          mkdir -p ~/.config/grizzly
+          touch ~/.config/grizzly/settings.yaml
       - name: Setup grizzly
         uses: grafana/setup-grizzly@v0.1.0
         with:
