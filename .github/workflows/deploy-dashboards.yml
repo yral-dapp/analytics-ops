@@ -18,7 +18,6 @@ jobs:
         with:
           version: "v0.4.0"
           grafana_url: "https://grafana-yral.fly.dev/"
-          grafana_user: admin
           grafana_token: ${{ secrets.GRAFANA_TOKEN }}
       - name: Apply dashboards
         run: grr apply resources
