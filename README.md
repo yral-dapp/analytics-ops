@@ -2,16 +2,40 @@
 
 IaC ops repo for Grafana
 
-## Grizzly dashboard editing workflow
+## Workflow editing existing dashboard
+
+-   Obtain grafana service account token from admin
 
 -   Set grizzly context
--   Use grizzly serve
--   Use grizzly apply (if creating a new dashboard, make sure to have no other uncommitted changes)
--   Edit in preview and make commit
+
+    ```
+    grr config create-context yral
+    grr config set grafana.url https://grafana-yral.fly.dev
+    grr config set grafana.token <token>
+    grr serve
+    ```
+
+-   Start preview server
+
+    ```
+    grr serve resources
+    ```
+
+-   Edit in preview will also make changes to YAML file, make a commit
+
+-   Run "Deploy dashboards" workflow on github
+
+## Workflow for creating new dashboard
+
+-   Create an empty dashboard yaml file (use [this](https://grafana.github.io/grizzly/grafana/#placing-dashboards-in-folders) template)
+
+-   Make a commit
+
+-   Now edit the workflow using editing existing dashboard workflow
 
 ## References
 
--   [Grizzly CLI tool](https://grafana.github.io/grizzly/workflows/)
+-   [Grizzly CLI tool](https://www.youtube.com/watch?v=sPD5ZUeoPus&t=287s)
 
 -   [Environment variables](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/)
 
