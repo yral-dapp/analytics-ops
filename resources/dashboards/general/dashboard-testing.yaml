@@ -77,7 +77,7 @@ spec:
                         type: string
                       type: groupBy
                 limit: 50
-          title: Testing12345
+          title: Testing
           type: table
     preload: false
     schemaVersion: 40
