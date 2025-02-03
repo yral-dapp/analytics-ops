@@ -1,102 +1,795 @@
 apiVersion: grizzly.grafana.com/v1alpha1
 kind: Dashboard
 metadata:
-  folder: general
-  name: dau
+    folder: general
+    name: dau
 spec:
-  annotations:
-    list:
-      - builtIn: 1
-        datasource:
-          type: grafana
-          uid: -- Grafana --
-        enable: true
-        hide: true
-        iconColor: rgba(0, 211, 255, 1)
-        name: Annotations & Alerts
-        type: dashboard
-  editable: true
-  fiscalYearStartMonth: 0
-  graphTooltip: 0
-  links: []
-  panels:
-    - datasource:
-        type: grafana-bigquery-datasource
-        uid: bigquery
-      fieldConfig:
-        defaults:
-          color:
-            mode: thresholds
-          custom:
-            align: auto
-            cellOptions:
-              type: auto
-            inspect: false
-          mappings: []
-          thresholds:
-            mode: absolute
-            steps:
-              - color: green
-                value: null
-              - color: red
-                value: 80
-        overrides: []
-      gridPos:
-        h: 11
-        w: 23
-        x: 0
-        "y": 0
-      id: 1
-      options:
-        cellHeight: sm
-        footer:
-          countRows: false
-          fields: ""
-          reducer:
-            - sum
-          show: false
-        showHeader: true
-      pluginVersion: 11.5.0
-      targets:
+    annotations:
+        list:
+            - builtIn: 1
+              datasource:
+                  type: grafana
+                  uid: -- Grafana --
+              enable: true
+              hide: true
+              iconColor: rgba(0, 211, 255, 1)
+              name: Annotations & Alerts
+              type: dashboard
+    editable: true
+    fiscalYearStartMonth: 0
+    graphTooltip: 0
+    links: []
+    panels:
+        - collapsed: false
+          gridPos:
+              h: 1
+              w: 24
+              x: 0
+              "y": 0
+          id: 9
+          panels: []
+          title: DAU
+          type: row
         - datasource:
-            type: grafana-bigquery-datasource
-            uid: bigquery
-          editorMode: code
-          format: 1
-          location: ""
-          project: hot-or-not-feed-intelligence
-          rawQuery: true
-          rawSql: |-
-            SELECT COUNT(*) as dau FROM (
-                SELECT STRING(params["user_id"]) as user_id, DATE(timestamp) as day
-                FROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`
-                WHERE event NOT IN ('login_join_overlay_viewed', 'login_method_selected', 'login_cta', 'logout_clicked', 'logout_confirmation', 'error_event')
-                AND DATE(timestamp) BETWEEN '2025-01-21' AND '2025-01-22'
-                AND STRING(params["host"]) in ("yral.com", "icpump.fun", "hotornot.wtf")
-                GROUP BY user_id, day
-            )
-          refId: A
-          sql:
-            columns:
-              - parameters: []
-                type: function
-            groupBy:
-              - property:
-                  type: string
-                type: groupBy
-            limit: 50
-      title: DAU
-      type: table
-  preload: false
-  schemaVersion: 40
-  tags: []
-  templating:
-    list: []
-  time:
-    from: now-6h
-    to: now
-  timepicker: {}
-  timezone: browser
-  title: DAU
-  uid: dau
-  weekStart: ""
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: thresholds
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 5
+              w: 6
+              x: 0
+              "y": 1
+          id: 5
+          options:
+              colorMode: value
+              graphMode: area
+              justifyMode: auto
+              orientation: auto
+              percentChangeColorMode: standard
+              reduceOptions:
+                  calcs:
+                      - lastNotNull
+                  fields: ""
+                  values: false
+              showPercentChange: false
+              textMode: auto
+              wideLayout: true
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: |-
+                    SELECT COUNT(DISTINCT user_id) as active FROM (
+                        SELECT STRING(params["user_id"]) as user_id
+                        FROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`
+                        WHERE event = 'yral_page_visit'
+                        AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'
+                        AND STRING(params["host"]) IN ("yral.com", "icpump.fun", "hotornot.wtf")
+                    )
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: Total active (all domains)
+          type: stat
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: thresholds
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 5
+              w: 6
+              x: 6
+              "y": 1
+          id: 2
+          options:
+              colorMode: value
+              graphMode: area
+              justifyMode: auto
+              orientation: auto
+              percentChangeColorMode: standard
+              reduceOptions:
+                  calcs:
+                      - lastNotNull
+                  fields: ""
+                  values: false
+              showPercentChange: false
+              textMode: auto
+              wideLayout: true
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: |-
+                    SELECT COUNT(DISTINCT user_id) as active FROM (
+                        SELECT STRING(params["user_id"]) as user_id
+                        FROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`
+                        WHERE event = 'yral_page_visit'
+                        AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'
+                        AND STRING(params["host"]) IN ("yral.com")
+                    )
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: Total active (yral.com)
+          type: stat
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: thresholds
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 5
+              w: 6
+              x: 12
+              "y": 1
+          id: 3
+          options:
+              colorMode: value
+              graphMode: area
+              justifyMode: auto
+              orientation: auto
+              percentChangeColorMode: standard
+              reduceOptions:
+                  calcs:
+                      - lastNotNull
+                  fields: ""
+                  values: false
+              showPercentChange: false
+              textMode: auto
+              wideLayout: true
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: |-
+                    SELECT COUNT(DISTINCT user_id) as active FROM (
+                        SELECT STRING(params["user_id"]) as user_id
+                        FROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`
+                        WHERE event = 'yral_page_visit'
+                        AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'
+                        AND STRING(params["host"]) IN ("icpump.fun")
+                    )
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: Total active (icpump.fun)
+          type: stat
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: thresholds
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 5
+              w: 6
+              x: 18
+              "y": 1
+          id: 4
+          options:
+              colorMode: value
+              graphMode: area
+              justifyMode: auto
+              orientation: auto
+              percentChangeColorMode: standard
+              reduceOptions:
+                  calcs:
+                      - lastNotNull
+                  fields: ""
+                  values: false
+              showPercentChange: false
+              textMode: auto
+              wideLayout: true
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: |-
+                    SELECT COUNT(DISTINCT user_id) as active FROM (
+                        SELECT STRING(params["user_id"]) as user_id
+                        FROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`
+                        WHERE event = 'yral_page_visit'
+                        AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'
+                        AND STRING(params["host"]) IN ("hotornot.wtf")
+                    )
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: Total active (hotornot.wtf)
+          type: stat
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: palette-classic
+                  custom:
+                      axisBorderShow: false
+                      axisCenteredZero: false
+                      axisColorMode: text
+                      axisLabel: ""
+                      axisPlacement: auto
+                      fillOpacity: 80
+                      gradientMode: none
+                      hideFrom:
+                          legend: false
+                          tooltip: false
+                          viz: false
+                      lineWidth: 1
+                      scaleDistribution:
+                          type: linear
+                      thresholdsStyle:
+                          mode: "off"
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 10
+              w: 24
+              x: 0
+              "y": 6
+          id: 12
+          options:
+              barRadius: 0
+              barWidth: 0.97
+              fullHighlight: false
+              groupWidth: 0.7
+              legend:
+                  calcs: []
+                  displayMode: list
+                  placement: bottom
+                  showLegend: true
+              orientation: auto
+              showValue: auto
+              stacking: none
+              tooltip:
+                  hideZeros: false
+                  mode: single
+                  sort: none
+              xTickLabelRotation: 0
+              xTickLabelSpacing: 0
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: "SELECT \n  DATE(timestamp) AS day,\n  COUNT(DISTINCT STRING(params[\"user_id\"])) AS distinct_user_count\nFROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`\nWHERE event = 'yral_page_visit'\n  AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'\n  AND STRING(params[\"host\"]) IN (\"yral.com\", \"icpump.fun\", \"hotornot.wtf\")\nGROUP BY day\nORDER BY day;"
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: DAU (all domains)
+          type: barchart
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: palette-classic
+                  custom:
+                      axisBorderShow: false
+                      axisCenteredZero: false
+                      axisColorMode: text
+                      axisLabel: ""
+                      axisPlacement: auto
+                      fillOpacity: 80
+                      gradientMode: none
+                      hideFrom:
+                          legend: false
+                          tooltip: false
+                          viz: false
+                      lineWidth: 1
+                      scaleDistribution:
+                          type: linear
+                      thresholdsStyle:
+                          mode: "off"
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 9
+              w: 8
+              x: 0
+              "y": 16
+          id: 6
+          options:
+              barRadius: 0
+              barWidth: 0.95
+              fullHighlight: false
+              groupWidth: 0.7
+              legend:
+                  calcs: []
+                  displayMode: list
+                  placement: bottom
+                  showLegend: true
+              orientation: auto
+              showValue: auto
+              stacking: none
+              tooltip:
+                  hideZeros: false
+                  mode: single
+                  sort: none
+              xTickLabelRotation: 30
+              xTickLabelSpacing: 0
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: "SELECT \n  DATE(timestamp) AS day,\n  COUNT(DISTINCT STRING(params[\"user_id\"])) AS distinct_user_count\nFROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`\nWHERE event = 'yral_page_visit'\n  AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'\n  AND STRING(params[\"host\"]) IN (\"yral.com\")\nGROUP BY day\nORDER BY day;"
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: DAU (yral.com)
+          type: barchart
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: palette-classic
+                  custom:
+                      axisBorderShow: false
+                      axisCenteredZero: false
+                      axisColorMode: text
+                      axisLabel: ""
+                      axisPlacement: auto
+                      fillOpacity: 80
+                      gradientMode: none
+                      hideFrom:
+                          legend: false
+                          tooltip: false
+                          viz: false
+                      lineWidth: 1
+                      scaleDistribution:
+                          type: linear
+                      thresholdsStyle:
+                          mode: "off"
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 9
+              w: 8
+              x: 8
+              "y": 16
+          id: 8
+          options:
+              barRadius: 0
+              barWidth: 0.95
+              fullHighlight: false
+              groupWidth: 0.7
+              legend:
+                  calcs: []
+                  displayMode: list
+                  placement: bottom
+                  showLegend: true
+              orientation: auto
+              showValue: auto
+              stacking: none
+              tooltip:
+                  hideZeros: false
+                  mode: single
+                  sort: none
+              xTickLabelRotation: 30
+              xTickLabelSpacing: 0
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: "SELECT \n  DATE(timestamp) AS day,\n  COUNT(DISTINCT STRING(params[\"user_id\"])) AS distinct_user_count\nFROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`\nWHERE event = 'yral_page_visit'\n  AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'\n  AND STRING(params[\"host\"]) IN (\"hotornot.wtf\")\nGROUP BY day\nORDER BY day;"
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: DAU hourly (hotornot.wtf)
+          type: barchart
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: palette-classic
+                  custom:
+                      axisBorderShow: false
+                      axisCenteredZero: false
+                      axisColorMode: text
+                      axisLabel: ""
+                      axisPlacement: auto
+                      fillOpacity: 80
+                      gradientMode: none
+                      hideFrom:
+                          legend: false
+                          tooltip: false
+                          viz: false
+                      lineWidth: 1
+                      scaleDistribution:
+                          type: linear
+                      thresholdsStyle:
+                          mode: "off"
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 9
+              w: 8
+              x: 16
+              "y": 16
+          id: 7
+          options:
+              barRadius: 0
+              barWidth: 0.95
+              fullHighlight: false
+              groupWidth: 0.7
+              legend:
+                  calcs: []
+                  displayMode: list
+                  placement: bottom
+                  showLegend: true
+              orientation: auto
+              showValue: auto
+              stacking: none
+              tooltip:
+                  hideZeros: false
+                  mode: single
+                  sort: none
+              xTickLabelRotation: 30
+              xTickLabelSpacing: 0
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: "SELECT \n  DATE(timestamp) AS day,\n  COUNT(DISTINCT STRING(params[\"user_id\"])) AS distinct_user_count\nFROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`\nWHERE event = 'yral_page_visit'\n  AND timestamp BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'\n  AND STRING(params[\"host\"]) IN (\"icpump.fun\")\nGROUP BY day\nORDER BY day;"
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: DAU hourly (icpump.fun)
+          type: barchart
+        - collapsed: false
+          gridPos:
+              h: 1
+              w: 24
+              x: 0
+              "y": 25
+          id: 10
+          panels: []
+          title: Events
+          type: row
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: palette-classic
+                  custom:
+                      axisBorderShow: false
+                      axisCenteredZero: false
+                      axisColorMode: text
+                      axisLabel: ""
+                      axisPlacement: auto
+                      fillOpacity: 80
+                      gradientMode: none
+                      hideFrom:
+                          legend: false
+                          tooltip: false
+                          viz: false
+                      lineWidth: 1
+                      scaleDistribution:
+                          type: linear
+                      thresholdsStyle:
+                          mode: "off"
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 15
+              w: 24
+              x: 0
+              "y": 26
+          id: 1
+          options:
+              barRadius: 0
+              barWidth: 0.97
+              fullHighlight: false
+              groupWidth: 0.7
+              legend:
+                  calcs: []
+                  displayMode: list
+                  placement: bottom
+                  showLegend: true
+              orientation: horizontal
+              showValue: auto
+              stacking: none
+              tooltip:
+                  hideZeros: false
+                  mode: single
+                  sort: none
+              xTickLabelRotation: 0
+              xTickLabelSpacing: 0
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: "SELECT \n  COUNT(DISTINCT STRING(params[\"user_id\"])) AS distinct_user_count,\n  event,\nFROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`\n  WHERE timestamp  BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'\n  AND STRING(params[\"host\"]) IN (\"yral.com\", \"icpump.fun\", \"hotornot.wtf\")\nGROUP BY event\nORDER BY event DESC;"
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: Events
+          type: barchart
+        - datasource:
+              type: grafana-bigquery-datasource
+              uid: bigquery
+          fieldConfig:
+              defaults:
+                  color:
+                      mode: palette-classic
+                  custom:
+                      axisBorderShow: false
+                      axisCenteredZero: false
+                      axisColorMode: text
+                      axisLabel: ""
+                      axisPlacement: auto
+                      barAlignment: 0
+                      barWidthFactor: 0.6
+                      drawStyle: line
+                      fillOpacity: 0
+                      gradientMode: none
+                      hideFrom:
+                          legend: false
+                          tooltip: false
+                          viz: false
+                      insertNulls: false
+                      lineInterpolation: linear
+                      lineWidth: 1
+                      pointSize: 5
+                      scaleDistribution:
+                          type: linear
+                      showPoints: auto
+                      spanNulls: false
+                      stacking:
+                          group: A
+                          mode: none
+                      thresholdsStyle:
+                          mode: "off"
+                  mappings: []
+                  thresholds:
+                      mode: absolute
+                      steps:
+                          - color: text
+                            value: null
+              overrides: []
+          gridPos:
+              h: 12
+              w: 24
+              x: 0
+              "y": 41
+          id: 11
+          options:
+              legend:
+                  calcs: []
+                  displayMode: list
+                  placement: bottom
+                  showLegend: true
+              tooltip:
+                  hideZeros: false
+                  mode: single
+                  sort: none
+          pluginVersion: 11.5.0
+          targets:
+              - datasource:
+                    type: grafana-bigquery-datasource
+                    uid: bigquery
+                editorMode: code
+                format: 1
+                location: ""
+                project: hot-or-not-feed-intelligence
+                rawQuery: true
+                rawSql: "SELECT \n  TIMESTAMP(CONCAT(CAST(EXTRACT(DATE FROM timestamp) AS STRING), ' ', CAST(EXTRACT(HOUR FROM timestamp) AS STRING), ':00:00')) AS hour_timestamp,\n  COUNT(DISTINCT STRING(params[\"user_id\"])) AS distinct_user_count,\n  event,\nFROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`\n  WHERE timestamp  BETWEEN '${__from:date:iso}' AND '${__to:date:iso}'\n  AND STRING(params[\"host\"]) IN (\"yral.com\", \"icpump.fun\", \"hotornot.wtf\")\nGROUP BY hour_timestamp, event\nORDER BY hour_timestamp, event DESC;"
+                refId: A
+                sql:
+                    columns:
+                        - parameters: []
+                          type: function
+                    groupBy:
+                        - property:
+                              type: string
+                          type: groupBy
+                    limit: 50
+          title: Events hourly distinct user count
+          transformations:
+              - id: prepareTimeSeries
+                options:
+                    format: multi
+              - id: renameByRegex
+                options:
+                    regex: ^distinct_user_count (.*)
+                    renamePattern: $1
+          type: timeseries
+    preload: false
+    schemaVersion: 40
+    tags: []
+    templating:
+        list: []
+    time:
+        from: now-7d
+        to: now
+    timepicker: {}
+    timezone: browser
+    title: DAU
+    uid: dau
+    weekStart: ""

@@ -1,0 +1,76 @@
+apiVersion: grizzly.grafana.com/v1alpha1
+kind: Dashboard
+metadata:
+  folder: general
+  name: feby0i0gitnuob
+spec:
+  annotations:
+    list:
+      - builtIn: 1
+        datasource:
+          type: grafana
+          uid: -- Grafana --
+        enable: true
+        hide: true
+        iconColor: rgba(0, 211, 255, 1)
+        name: Annotations & Alerts
+        type: dashboard
+  editable: true
+  fiscalYearStartMonth: 0
+  graphTooltip: 0
+  links: []
+  panels:
+    - datasource:
+        type: quickwit-quickwit-datasource
+        uid: aebxj6eat9ji8f
+      fieldConfig:
+        defaults: {}
+        overrides: []
+      gridPos:
+        h: 8
+        w: 12
+        x: 0
+        "y": 0
+      id: 1
+      options:
+        dedupStrategy: none
+        enableInfiniteScrolling: false
+        enableLogDetails: true
+        prettifyLogMessage: false
+        showCommonLabels: true
+        showLabels: true
+        showTime: true
+        sortOrder: Descending
+        wrapLogMessage: true
+      pluginVersion: 11.5.0
+      targets:
+        - alias: ""
+          bucketAggs: []
+          datasource:
+            type: quickwit-quickwit-datasource
+            uid: aebxj6eat9ji8f
+          metrics:
+            - id: "1"
+              settings:
+                limit: "1000"
+                sortDirection: desc
+              type: logs
+          query: fly.app.name:"hot\-or\-not\-web\-leptos\-ssr"
+          refId: A
+          timeField: ""
+      title: leptos ssr logs
+      type: logs
+  preload: false
+  refresh: ""
+  schemaVersion: 40
+  tags: []
+  templating:
+    list: []
+  time:
+    from: now-6h
+    to: now
+  timepicker: {}
+  timezone: browser
+  title: logs
+  uid: feby0i0gitnuob
+  weekStart: ""
