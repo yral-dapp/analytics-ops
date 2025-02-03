@@ -2,7 +2,7 @@ app = 'grafana-yral'
 primary_region = 'ams'
 
 [build]
-image = 'grafana/grafana-oss'
+dockerfile = "Dockerfile"
 
 [[mounts]]
 source = 'grafana_yral'
@@ -34,4 +34,3 @@ GF_AUTH_GOOGLE_SCOPES = "openid email profile"
 GF_AUTH_GOOGLE_ALLOWED_DOMAINS = "gobazzinga.io"
 GF_AUTH_GOOGLE_HOSTED_DOMAIN = "gobazzinga.io"
 GF_AUTH_GOOGLE_USE_PKCE = "true"
-
