@@ -1,17 +1,17 @@
 apiVersion: grizzly.grafana.com/v1alpha1
 kind: Datasource
 metadata:
-  name: datasource-bigquery
+  name: bigquery
 spec:
   access: proxy
   jsonData:
     authenticationType: jwt
     clientEmail: grafana-analytics-dashboard@hot-or-not-feed-intelligence.iam.gserviceaccount.com
     defaultProject: hot-or-not-feed-intelligence
-    tokenUri: https://oauth2.googleapis.com/token
     privateKeyPath: /usr/share/grafana/datasource-bigquery.pem
-  name: datasource-bigquery
+    tokenUri: https://oauth2.googleapis.com/token
+  name: bigquery
   orgId: 1
   type: grafana-bigquery-datasource
   typeLogoUrl: public/plugins/grafana-bigquery-datasource/img/logo.png
-  uid: datasource-bigquery
+  uid: bigquery

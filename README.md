@@ -32,6 +32,12 @@ IaC ops repo for Grafana
 
 -   Now edit the workflow using editing existing dashboard workflow
 
+## Workflow for syncing from Grafana to repository
+
+- Set targets using `grr config set targets Dashboard,Dashboardfolder,DataSource`
+
+- Pull resources using `grr pull resources`
+
 ## References
 
 -   [Grizzly CLI tool](https://www.youtube.com/watch?v=sPD5ZUeoPus&t=287s)

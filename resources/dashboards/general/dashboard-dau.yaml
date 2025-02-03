@@ -2,7 +2,7 @@ apiVersion: grizzly.grafana.com/v1alpha1
 kind: Dashboard
 metadata:
   folder: general
-  name: dashboard-dau
+  name: dau
 spec:
   annotations:
     list:
@@ -22,7 +22,7 @@ spec:
   panels:
     - datasource:
         type: grafana-bigquery-datasource
-        uid: datasource-bigquery
+        uid: bigquery
       fieldConfig:
         defaults:
           color:
@@ -60,13 +60,21 @@ spec:
       targets:
         - datasource:
             type: grafana-bigquery-datasource
-            uid: datasource-bigquery
+            uid: bigquery
           editorMode: code
           format: 1
           location: ""
           project: hot-or-not-feed-intelligence
           rawQuery: true
-          rawSql: select * from hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics;
+          rawSql: |-
+            SELECT COUNT(*) as dau FROM (
+                SELECT STRING(params["user_id"]) as user_id, DATE(timestamp) as day
+                FROM `hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics`
+                WHERE event NOT IN ('login_join_overlay_viewed', 'login_method_selected', 'login_cta', 'logout_clicked', 'logout_confirmation', 'error_event')
+                AND DATE(timestamp) BETWEEN '2025-01-21' AND '2025-01-22'
+                AND STRING(params["host"]) in ("yral.com", "icpump.fun", "hotornot.wtf")
+                GROUP BY user_id, day
+            )
           refId: A
           sql:
             columns:
@@ -90,6 +98,5 @@ spec:
   timepicker: {}
   timezone: browser
   title: DAU
-  uid: dashboard-dau
-  version: 1
+  uid: dau
   weekStart: ""
