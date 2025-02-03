@@ -31,6 +31,9 @@ RUN mkdir -p "$GF_PATHS_PLUGINS" && \
 
 USER grafana
 
+COPY ./datasource-bigquery.pem  .
+COPY ./datasource-bigquery-testing.pem  .
+
 RUN if [ $GF_INSTALL_IMAGE_RENDERER_PLUGIN = "true" ]; then \
       if grep -i -q alpine /etc/issue; then \
         grafana-cli \
