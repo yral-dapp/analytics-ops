@@ -13,6 +13,10 @@ jobs:
         run: |
           echo $GOOGLE_CLOUD_BIG_QUERY_SERVICE_ACCOUNT_PEM_FILE_PRIVATE_KEY | sed 's/\\n/\'$'\n''/g' | sed 's/\"//g' > datasource-bigquery.pem
           echo $TESTING | sed 's/\\n/\'$'\n''/g' | sed 's/\"//g' > datasource-bigquery-testing.pem
+      - name: Testing
+        run: |
+          cat datasource-bigquery.pem
+          cat datasource-bigquery-testing.pem
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Set secret tokens
