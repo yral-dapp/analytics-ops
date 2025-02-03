@@ -64,7 +64,7 @@ spec:
           editorMode: code
           format: 1
           location: ""
-          project: green-analog-447907-h0
+          project: hot-or-not-feed-intelligence
           rawQuery: true
           rawSql: select * from hot-or-not-feed-intelligence.analytics_335143420.test_events_analytics;
           refId: A
@@ -77,7 +77,7 @@ spec:
                   type: string
                 type: groupBy
             limit: 50
-      title: Testing
+      title: DAU
       type: table
   preload: false
   schemaVersion: 40
@@ -89,7 +89,7 @@ spec:
     to: now
   timepicker: {}
   timezone: browser
-  title: testing
+  title: DAU
   uid: dashboard-dau
   version: 1
   weekStart: ""
