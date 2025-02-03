@@ -4,6 +4,8 @@ IaC ops repo for Grafana
 
 ## Workflow editing existing dashboard
 
+-   Obtain private key for datasources from admin
+
 -   Obtain grafana service account token from admin
 
 -   Set grizzly context
@@ -34,9 +36,9 @@ IaC ops repo for Grafana
 
 ## Workflow for syncing from Grafana to repository
 
-- Set targets using `grr config set targets Dashboard,Dashboardfolder,DataSource`
+-   Set targets using `grr config set targets Dashboard,Dashboardfolder,DataSource`
 
-- Pull resources using `grr pull resources`
+-   Pull resources using `grr pull resources`
 
 ## References
 
