@@ -16,10 +16,6 @@ jobs:
         env:
           GOOGLE_CLOUD_BIG_QUERY_SERVICE_ACCOUNT_PEM_FILE_PRIVATE_KEY: ${{ secrets.GOOGLE_CLOUD_BIG_QUERY_SERVICE_ACCOUNT_PEM_FILE_PRIVATE_KEY }}
           TESTING: ${{ secrets.TESTING }}
-      - name: Testing
-        run: |
-          cat datasource-bigquery.pem
-          cat datasource-bigquery-testing.pem
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Set secret tokens
