@@ -1,16 +1,16 @@
 apiVersion: grizzly.grafana.com/v1alpha1
 kind: Datasource
 metadata:
-  name: aebxj6eat9ji8f
+    name: aebxj6eat9ji8f
 spec:
-  access: proxy
-  jsonData:
-    index: fly_nats_logs_v4
-    logLevelField: ""
-    logMessageField: ""
-  name: quickwit-datasource-test
-  orgId: 1
-  type: quickwit-quickwit-datasource
-  typeLogoUrl: public/plugins/quickwit-quickwit-datasource/img/logo.svg
-  uid: aebxj6eat9ji8f
-  url: https://quickwit-fly-v3.fly.dev/api/v1
+    access: proxy
+    jsonData:
+        index: fly_nats_logs_v4
+        logLevelField: ""
+        logMessageField: ""
+    name: quickwit-datasource-test
+    orgId: 1
+    type: quickwit-quickwit-datasource
+    typeLogoUrl: public/plugins/quickwit-quickwit-datasource/img/logo.svg
+    uid: aebxj6eat9ji8f
+    url: https://quickwit-fly-v3.fly.dev/api/v1
