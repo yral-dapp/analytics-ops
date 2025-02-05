@@ -1,5 +1,7 @@
 # grafana-ops
 
+Sign in with your google gobazzinga.io account at https://grafana-yral.fly.dev/
+
 IaC ops repo for Grafana
 
 ## Workflow editing existing dashboard
@@ -39,6 +41,22 @@ IaC ops repo for Grafana
 -   Set targets using `grr config set targets Dashboard,Dashboardfolder,DataSource`
 
 -   Pull resources using `grr pull resources`
+
+
+# Fly logs pipeline
+
+![Fly logs pipeline](./imgs/logs-pipeline.png)
+
+
+## Logs dashboard usage
+
+- Select app of choice. Can also enter name of your app if missing from the list
+- Query field takes a lucene query (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)
+- Example = message:(ERROR OR WARN) NOT DEBUG
+![Logs Dashboard](./imgs/grafana-example.png)
+- Tail is 3000 lines by default, but can be increased from the edit section
+
+
 
 ## References
 
