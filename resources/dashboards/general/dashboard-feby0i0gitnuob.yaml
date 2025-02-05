@@ -163,7 +163,37 @@ spec:
                 - selected: false
                   text: icp-off-chain-agent
                   value: icp-off-chain-agent
-              query: hot-or-not-web-leptos-ssr, icp-off-chain-agent
+                - selected: false
+                  text: hot-or-not-web-leptos-ssr-staging
+                  value: hot-or-not-web-leptos-ssr-staging
+                - selected: false
+                  text: download-upload-service
+                  value: download-upload-service
+                - selected: false
+                  text: experiments-kit
+                  value: experiments-kit
+                - selected: false
+                  text: prod-yral-icpumpsearch
+                  value: prod-yral-icpumpsearch
+                - selected: false
+                  text: prod-yral-nsfw-classification
+                  value: prod-yral-nsfw-classification
+                - selected: false
+                  text: quickwit-yral
+                  value: quickwit-yral
+                - selected: false
+                  text: grafana-yral
+                  value: grafana-yral
+                - selected: false
+                  text: vector-dev-yral
+                  value: vector-dev-yral
+                - selected: false
+                  text: yral-ml-feed-server
+                  value: yral-ml-feed-server
+                - selected: false
+                  text: yral-metadata
+                  value: yral-metadata
+              query: hot-or-not-web-leptos-ssr, icp-off-chain-agent, hot-or-not-web-leptos-ssr-staging, download-upload-service, experiments-kit, prod-yral-icpumpsearch, prod-yral-nsfw-classification, quickwit-yral, grafana-yral, vector-dev-yral, yral-ml-feed-server, yral-metadata
               type: custom
             - current:
                 text: ""
@@ -176,7 +206,8 @@ spec:
                   value: ""
               query: ""
               type: textbox
-            - datasource:
+            - baseFilters: []
+              datasource:
                 type: quickwit-quickwit-datasource
                 uid: aebxj6eat9ji8f
               filters: []
