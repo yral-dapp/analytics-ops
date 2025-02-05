@@ -30,6 +30,7 @@ if !exists(.timestamp) {
 }
 # Add lvl field from log.level
 .lvl = .log.level
+.a = .message
 '''
 
 [sinks.quickwit_logs]
