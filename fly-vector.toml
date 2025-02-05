@@ -1,0 +1,26 @@
+app = "vector-dev-yral"
+
+primary_region = "bom"
+
+[build]
+
+[http_service]
+internal_port = 8686
+force_https = true
+min_machines_running = 1
+processes = ["app"]
+
+
+[[vm]]
+memory = '8gb'
+cpu_kind = 'shared'
+cpus = 8
+
+[mounts]
+source = "vector_data"
+destination = "/var/lib/vector/"
+initial_size = "10gb"
+
+[metrics]
+port = 9598
+path = "/metrics"

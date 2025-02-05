@@ -1,0 +1,26 @@
+
+app = "quickwit-yral"
+primary_region = "bom"
+
+[build]
+
+[http_service]
+internal_port = 7280
+force_https = true
+min_machines_running = 1
+processes = ["app"]
+
+
+[[vm]]
+memory = '8gb'
+cpu_kind = 'shared'
+cpus = 8
+
+[mounts]
+source = "quickwit_data"
+destination = "/quickwit/qwdata"
+initial_size = "10gb"
+
+[metrics]
+port = 9090
+path = "/metrics"

@@ -1,0 +1,53 @@
+[api]
+enabled = true
+address = "[::]:8686"
+
+[sources.vector_logs]
+type = "internal_logs"
+
+[sources.fly_log_metrics]
+type = "internal_metrics"
+
+[sources.nats]
+type = "nats"
+url = "nats://[${NETWORK-fdaa}::3]:4223"
+queue = "${QUEUE-}"
+subject = "${SUBJECT-logs.>}"
+auth.strategy = "user_password"
+auth.user_password.user = "${ORG-personal}"
+auth.user_password.password = "${ACCESS_TOKEN?}"
+connection_name = "Fly logs stream"
+
+[transforms.log_json]
+type = "remap"
+inputs = ["nats"]
+source = '''
+# Parse JSON if needed
+. = parse_json!(.message)
+# Add timestamp if not present
+if !exists(.timestamp) {
+  .timestamp = now()
+}
+# Add lvl field from log.level
+.lvl = .log.level
+'''
+
+[sinks.quickwit_logs]
+type = "http"
+method = "post"
+inputs = ["log_json"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "https://quickwit-yral.fly.dev/api/v1/fly_nats_logs/ingest"
+healthcheck.enabled = true
+
+
+# [sinks.emit_syslog]
+# inputs = ["log_json"]
+# type = "console"
+# encoding.codec = "text"
+
+[sinks.console]
+type = "console"
+inputs = ["vector_logs"]
+encoding.codec = "text"

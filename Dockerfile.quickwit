@@ -1,0 +1,21 @@
+FROM quickwit/quickwit:edge-slim-bookworm
+
+RUN apt-get update \
+    && apt-get install -y \
+    libssl3 \
+    clang \
+    protobuf-compiler \
+    libssl-dev \
+    pkg-config \
+    cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy config files
+COPY quickwit.yaml /quickwit/config/quickwit.yaml
+
+# Expose the required ports
+EXPOSE 7280
+EXPOSE 7281
+
+# Set the entrypoint
+ENTRYPOINT ["quickwit", "run"]

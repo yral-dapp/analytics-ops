@@ -1,0 +1,25 @@
+name: Deploy quickwit
+
+on: [workflow_dispatch]
+
+jobs:
+  deploy:
+    name: Deploy quickwit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Set secret tokens
+        run: |
+          flyctl secrets set STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_ACCESS_KEY="$STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_ACCESS_KEY" --app "quickwit-yral" --stage
+          flyctl secrets set STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_SECRET_KEY="$STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_SECRET_KEY" --app "quickwit-yral" --stage
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_ACCESS_KEY: ${{ secrets.STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_ACCESS_KEY }}
+          STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_SECRET_KEY: ${{ secrets.STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_SECRET_KEY }}
+      - name: Deploy grafana
+        run: flyctl deploy -c fly-quickwit.toml --dockerfile Dockerfile.quickwit
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
