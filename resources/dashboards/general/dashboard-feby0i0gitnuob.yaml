@@ -65,7 +65,7 @@ spec:
                           value: 80
             overrides: []
           gridPos:
-            h: 7
+            h: 5
             w: 24
             x: 0
             "y": 0
@@ -109,10 +109,10 @@ spec:
             defaults: {}
             overrides: []
           gridPos:
-            h: 10
+            h: 13
             w: 24
             x: 0
-            "y": 7
+            "y": 5
           id: 3
           options:
             dedupStrategy: none
