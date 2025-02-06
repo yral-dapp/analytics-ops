@@ -5,6 +5,11 @@ primary_region = "bom"
 [build]
 
 
+[http_service]
+internal_port = 7280
+force_https = false
+min_machines_running = 1
+
 [[vm]]
 memory = '8gb'
 cpu_kind = 'shared'
