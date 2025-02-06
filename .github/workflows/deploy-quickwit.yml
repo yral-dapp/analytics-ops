@@ -19,7 +19,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_ACCESS_KEY: ${{ secrets.STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_ACCESS_KEY }}
           STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_SECRET_KEY: ${{ secrets.STORJ_ANALYTICS_EVENTS_SINK_BUCKET_S3_CREDENTIALS_SECRET_KEY }}
-      - name: Deploy grafana
+      - name: Deploy quickwit
         run: flyctl deploy -c fly-quickwit.toml --dockerfile Dockerfile.quickwit
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
