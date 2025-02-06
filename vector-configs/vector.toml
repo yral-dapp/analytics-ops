@@ -39,7 +39,7 @@ method = "post"
 inputs = ["log_json"]
 encoding.codec = "json"
 framing.method = "newline_delimited"
-uri = "https://quickwit-yral.fly.dev/api/v1/fly_nats_logs/ingest"
+uri = "https://quickwit-yral.internal:7280/api/v1/fly_nats_logs/ingest"
 healthcheck.enabled = true
 
 
