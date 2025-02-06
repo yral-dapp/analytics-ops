@@ -5,15 +5,6 @@ primary_region = "bom"
 [build]
 
 
-[[services]]
-internal_port = 7280
-protocol = "tcp"
-min_machines_running = 1
-
-[[services.ports]]
-handlers = ["tls"]
-port = 443
-
 [[vm]]
 memory = '8gb'
 cpu_kind = 'shared'
