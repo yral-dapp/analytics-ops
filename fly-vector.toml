@@ -5,7 +5,7 @@ primary_region = "bom"
 [build]
 
 [http_service]
-internal_port = 8686
+internal_port = 8685
 force_https = true
 min_machines_running = 1
 processes = ["app"]

@@ -1,0 +1,27 @@
+version: 0.8
+
+index_id: cf_logs
+
+doc_mapping:
+  mode: dynamic
+  field_mappings:
+    - name: timestamp
+      type: datetime
+      fast: true
+    - name: message
+      type: text
+      tokenizer: default
+    - name: level
+      type: text
+      fast: true
+    - name: app
+      type: text
+      fast: true
+  timestamp_field: timestamp
+
+  # Dynamic mapping for any additional JSON fields
+  dynamic_mapping:
+    expand_dots: true
+
+search_settings:
+  default_search_fields: [message]

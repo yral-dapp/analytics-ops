@@ -52,3 +52,27 @@ healthcheck.enabled = true
 type = "console"
 inputs = ["vector_logs"]
 encoding.codec = "text"
+
+
+[sources.cf_logs]
+type = "http_server"
+address = "0.0.0.0:8685"
+
+
+[transforms.cf_log_json]
+type = "remap"
+inputs = ["cf_logs"]
+source = '''
+# Parse JSON if needed
+. = parse_json!(.message)
+.a = .message
+'''
+
+[sinks.cf_quickwit_logs]
+type = "http"
+method = "post"
+inputs = ["cf_log_json"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "http://quickwit-yral.internal:7280/api/v1/cf_logs/ingest"
+healthcheck.enabled = true

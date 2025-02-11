@@ -2,5 +2,6 @@ FROM timberio/vector:0.44.0-debian
 COPY vector-configs /etc/vector/
 
 EXPOSE 8686
+EXPOSE 8685
 
 ENTRYPOINT ["vector", "-c", "/etc/vector/vector.toml"]
