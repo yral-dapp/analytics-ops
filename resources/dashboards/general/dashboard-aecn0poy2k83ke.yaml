@@ -1,0 +1,87 @@
+apiVersion: grizzly.grafana.com/v1alpha1
+kind: Dashboard
+metadata:
+    folder: general
+    name: aecn0poy2k83ke
+spec:
+    annotations:
+        list:
+            - builtIn: 1
+              datasource:
+                type: grafana
+                uid: -- Grafana --
+              enable: true
+              hide: true
+              iconColor: rgba(0, 211, 255, 1)
+              name: Annotations & Alerts
+              type: dashboard
+    editable: true
+    fiscalYearStartMonth: 0
+    graphTooltip: 0
+    links: []
+    panels:
+        - datasource:
+            type: quickwit-quickwit-datasource
+            uid: cecn08sa59o8wa
+          fieldConfig:
+            defaults: {}
+            overrides: []
+          gridPos:
+            h: 10
+            w: 24
+            x: 0
+            "y": 0
+          id: 1
+          options:
+            dedupStrategy: none
+            enableInfiniteScrolling: false
+            enableLogDetails: true
+            prettifyLogMessage: false
+            showCommonLabels: false
+            showLabels: true
+            showTime: true
+            sortOrder: Descending
+            wrapLogMessage: true
+          pluginVersion: 11.5.0
+          targets:
+            - alias: ""
+              bucketAggs: []
+              datasource:
+                type: quickwit-quickwit-datasource
+                uid: cecn08sa59o8wa
+              metrics:
+                - id: "1"
+                  settings:
+                    limit: "100"
+                    sortDirection: desc
+                  type: logs
+              query: app:${app}
+              refId: A
+              timeField: ""
+          title: CF logs
+          type: logs
+    preload: false
+    refresh: ""
+    schemaVersion: 40
+    tags: []
+    templating:
+        list:
+            - allValue: '*'
+              current:
+                text: $__all
+                value: $__all
+              hide: 1
+              includeAll: true
+              label: App
+              name: app
+              options: []
+              query: ""
+              type: custom
+    time:
+        from: now-6h
+        to: now
+    timepicker: {}
+    timezone: browser
+    title: Cloudflare Logs
+    uid: aecn0poy2k83ke
+    weekStart: ""

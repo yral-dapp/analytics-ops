@@ -1,0 +1,16 @@
+apiVersion: grizzly.grafana.com/v1alpha1
+kind: Datasource
+metadata:
+    name: cecn08sa59o8wa
+spec:
+    access: proxy
+    jsonData:
+        index: cf_logs
+        logLevelField: ""
+        logMessageField: ""
+    name: quickwit-cf-logs
+    orgId: 1
+    type: quickwit-quickwit-datasource
+    typeLogoUrl: public/plugins/quickwit-quickwit-datasource/img/logo.svg
+    uid: cecn08sa59o8wa
+    url: http://quickwit-yral.internal:7280/api/v1
