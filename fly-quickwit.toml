@@ -11,9 +11,9 @@ force_https = false
 min_machines_running = 1
 
 [[vm]]
-memory = '8gb'
+memory = '4gb'
 cpu_kind = 'shared'
-cpus = 8
+cpus = 2
 
 [mounts]
 source = "quickwit_data"
