@@ -116,4 +116,3 @@ inputs = ["ga4_metrics"]
 encoding.codec = "json"
 framing.method = "newline_delimited"
 uri = "https://www.google-analytics.com/mp/collect?measurement_id=G-PLNNETMSLM&api_secret=${GA4_API_SECRET}"
-healtcheck.enabled = false
