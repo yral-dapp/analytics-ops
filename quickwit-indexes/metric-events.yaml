@@ -1,0 +1,29 @@
+version: 0.8
+
+index_id: metric_events
+
+doc_mapping:
+  mode: dynamic
+  field_mappings:
+    - name: unix_timestamp_secs
+      type: datetime
+      input_formats:
+        - unix_timestamp
+      fast_precision: seconds
+      fast: true
+    - name: tag
+      type: text
+      tokenizer: default
+    - name: source
+      type: text
+      fast: true
+    - name: metric
+      type: json
+  timestamp_field: unix_timestamp_secs
+
+  # Dynamic mapping for any additional JSON fields
+  dynamic_mapping:
+    expand_dots: true
+
+search_settings:
+  default_search_fields: [tag, source]

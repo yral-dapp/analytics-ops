@@ -54,18 +54,41 @@ inputs = ["vector_logs"]
 encoding.codec = "text"
 
 
-[sources.cf_logs]
+[sources.http_logs]
 type = "http_server"
 address = "0.0.0.0:8685"
 
-
-[transforms.cf_log_json]
+[transforms.http_log_json]
 type = "remap"
-inputs = ["cf_logs"]
+inputs = ["http_logs"]
 source = '''
 # Parse JSON if needed
 . = parse_json!(.message)
 .a = .message
+'''
+
+[transforms.cf_log_json]
+type = "filter"
+inputs = ["http_log_json"]
+condition = "exists(.app) && exists(.level) && exists(.message) && exists(.timestamp)"
+
+[transforms.http_metrics]
+type = "filter"
+inputs = ["http_log_json"]
+condition = "exists(.unix_timestamp_secs) && exists(.tag) && exists(.source) && exists(.metric)"
+
+[transforms.ga4_metrics]
+type = "remap"
+inputs = ["http_metrics"]
+source = '''
+. = {
+  "client_id": .source,
+  "user_id": .user_id,
+  "events": [{
+    "name": .tag,
+    "params": .metric
+  }]
+}
 '''
 
 [sinks.cf_quickwit_logs]
@@ -76,3 +99,21 @@ encoding.codec = "json"
 framing.method = "newline_delimited"
 uri = "http://quickwit-yral.internal:7280/api/v1/cf_logs/ingest"
 healthcheck.enabled = true
+
+[sinks.quickwit_metrics]
+type = "http"
+method = "post"
+inputs = ["http_metrics"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "http://quickwit-yral.internal:7280/api/v1/metric_events/ingest"
+healthcheck.enabled = true
+
+[sinks.ga4]
+type = "http"
+method = "post"
+inputs = ["ga4_metrics"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "https://www.google-analytics.com/mp/collect?measurement_id=G-PLNNETMSLM&api_secret=${GA4_API_SECRET}"
+healtcheck.enabled = false
