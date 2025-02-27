@@ -77,6 +77,20 @@ type = "filter"
 inputs = ["http_log_json"]
 condition = "exists(.unix_timestamp_secs) && exists(.tag) && exists(.source) && exists(.metric)"
 
+[transforms.ga4_metrics]
+type = "remap"
+inputs = ["http_metrics"]
+source = '''
+. = {
+  "client_id": .source,
+  "user_id": .user_id,
+  "events": [{
+    "name": .tag,
+    "params": .metric
+  }]
+}
+'''
+
 [sinks.cf_quickwit_logs]
 type = "http"
 method = "post"
@@ -94,3 +108,12 @@ encoding.codec = "json"
 framing.method = "newline_delimited"
 uri = "http://quickwit-yral.internal:7280/api/v1/metric_events/ingest"
 healthcheck.enabled = true
+
+[sinks.ga4]
+type = "http"
+method = "post"
+inputs = ["ga4_metrics"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "https://www.google-analytics.com/mp/collect?measurement_id=G-PLNNETMSLM&api_secret=${GA4_API_SECRET}"
+healtcheck.enabled = false
