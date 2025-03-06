@@ -77,16 +77,46 @@ type = "filter"
 inputs = ["http_log_json"]
 condition = "exists(.unix_timestamp_secs) && exists(.tag) && exists(.source) && exists(.metric)"
 
-[transforms.ga4_metrics]
+[transforms.split_metrics_list]
 type = "remap"
 inputs = ["http_metrics"]
 source = '''
-. = {
-  "client_id": .source,
-  "user_id": .user_id,
-  "events": [{
-    "name": .tag,
-    "params": .metric
+# Check if this is a metrics_list event
+.source = .source
+if .tag == "metrics_list" {
+  # Create an array to hold the individual events
+  events_list = []
+  
+  # Process each item in the metric array
+  # log("SPLIT: Starting to process " + to_string(length(array!(.metric))) + " items", level: "info")
+  for_each(array!(.metric)) -> |index, item| {
+    # log("SPLIT: Processing item", level: "info")
+    # Add the event to our events array
+    item_obj = {
+      "client_id": .source,
+      "user_id": .tag,
+      "events": [{
+        "name": item.tag,
+        "params": item.metric
+      }]
+    }
+    events_list = push(events_list, item_obj)
+  }
+  
+  # log("SPLIT: Finished processing items, created " + to_string(length(events)) + " events", level: "info")
+  
+  # Replace the current event with the array of individual events
+  . = events_list
+} else {
+  # log("SPLIT: Regular event (not tides_turned_list), passing through", level: "info")
+
+  . = [{
+      "client_id": .source,
+      "user_id": .user_id,
+      "events": [{ 
+        "name": .tag,
+        "params": .metric
+      }]
   }]
 }
 '''
@@ -100,19 +130,20 @@ framing.method = "newline_delimited"
 uri = "http://quickwit-yral.internal:7280/api/v1/cf_logs/ingest"
 healthcheck.enabled = true
 
-[sinks.quickwit_metrics]
-type = "http"
-method = "post"
-inputs = ["http_metrics"]
-encoding.codec = "json"
-framing.method = "newline_delimited"
-uri = "http://quickwit-yral.internal:7280/api/v1/metric_events/ingest"
-healthcheck.enabled = true
+# [sinks.quickwit_metrics]
+# type = "http"
+# method = "post"
+# inputs = ["http_metrics"]
+# encoding.codec = "json"
+# framing.method = "newline_delimited"
+# uri = "http://quickwit-yral.internal:7280/api/v1/metric_events/ingest"
+# healthcheck.enabled = true
 
 [sinks.ga4]
 type = "http"
 method = "post"
-inputs = ["ga4_metrics"]
+inputs = ["split_metrics_list"]
 encoding.codec = "json"
 framing.method = "newline_delimited"
 uri = "https://www.google-analytics.com/mp/collect?measurement_id=G-PLNNETMSLM&api_secret=${GA4_API_SECRET}"
+batch.max_events = 1
