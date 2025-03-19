@@ -18,9 +18,20 @@ auth.user_password.user = "${ORG-personal}"
 auth.user_password.password = "${ACCESS_TOKEN?}"
 connection_name = "Fly logs stream"
 
+
+[sources.nats2]
+type = "nats"
+url = "nats://[${NETWORK2-fdaa}::3]:4223"
+queue = "${QUEUE-}"
+subject = "${SUBJECT-logs.>}"
+auth.strategy = "user_password"
+auth.user_password.user = "${ORG2-personal}"
+auth.user_password.password = "${ACCESS_TOKEN2?}"
+connection_name = "Fly logs stream2"
+
 [transforms.log_json]
 type = "remap"
-inputs = ["nats"]
+inputs = ["nats","nats2"]
 source = '''
 # Parse JSON if needed
 . = parse_json!(.message)
