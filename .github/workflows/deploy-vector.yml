@@ -16,6 +16,10 @@ jobs:
           flyctl secrets set ACCESS_TOKEN="$FLY_API_TOKEN" --app "vector-dev-yral" --stage
           flyctl secrets set ORG="gobazzinga-inc-584" --app "vector-dev-yral" --stage
           flyctl secrets set GA4_API_SECRET="$GA4_API_SECRET" --app "vector-dev-yral" --stage
+          
+          flyctl secrets set ORG_ESTATE="estate-dao-769" --app "vector-dev-yral" --stage
+          flyctl secrets set ACCESS_TOKEN_ESTATE="$ACCESS_TOKEN_ESTATE" --app "vector-dev-yral" --stage
+          
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           GA4_API_SECRET: ${{ secrets.GOOGLE_ANALYTICS_MEASUREMENT_PROTOCOL_API_SECRET }}
